@@ -1,0 +1,335 @@
+============================================================
+PRACTICAL 2 — GIT INSTALLATION AND CONFIGURATION
+============================================================
+
+git --version
+
+git config --global user.name "Fx-Forge"
+
+git config --global user.email "rxdgxar@gmail.com"
+
+git config --global core.editor "code --wait"
+
+git config --global --list
+
+
+============================================================
+PRACTICAL 3 — SSH KEYS
+============================================================
+
+ssh-keygen -t ed25519 -C "rxdgxar@gmail.com"
+
+eval $(ssh-agent -s)
+
+ssh-add ~/.ssh/id_ed25519
+
+cat ~/.ssh/id_ed25519.pub
+
+
+============================================================
+PRACTICAL 4 — INITIALISE A LOCAL REPOSITORY
+============================================================
+
+git init
+
+git add README.md
+
+git commit -m "Initial commit"
+
+git branch -M master
+
+git remote add origin <repository_link>
+
+git push -u origin master
+
+
+============================================================
+PRACTICAL 5 — TRACKING, IGNORING, REMOVING AND RENAMING FILES
+============================================================
+
+A. Create and track a file
+
+echo "HI BYE!" >> text1.txt
+
+git status
+
+git add hello.txt
+
+git status
+
+git commit -m "Git Status Check"
+
+git push -u origin main
+
+
+B. Create a .gitignore file
+
+touch .gitignore
+
+Contents of .gitignore:
+
+*.log
+*.tmp
+node_modules/
+__pycache__/
+
+Check status:
+
+git add .
+
+git status
+
+
+C. Remove a tracked file
+
+git rm hello.txt
+
+git commit -m "Removed File"
+
+
+D. Rename or move a file
+
+git mv text1.txt renamed.txt
+
+git commit -m "Move Or Rename File"
+
+
+============================================================
+PRACTICAL 6 — COMMIT HISTORY AND UNDOING CHANGES
+============================================================
+
+A. View commit history
+
+git log
+
+git log --oneline
+
+git log --graph
+
+
+B. Unstage a staged file
+
+git reset
+
+
+C. Revert a commit
+
+git revert <commit_id>
+
+
+============================================================
+PRACTICAL 7 — REMOTE REPOSITORIES AND TAGS
+============================================================
+
+A. View and add a remote
+
+git remote -v
+
+git remote add origin <repository_link>
+
+git remote -v
+
+
+B. Fetch and pull changes
+
+git fetch origin
+
+git pull origin master
+
+
+C. Create and view tags
+
+Annotated tag:
+git tag -a v1.0 -m "Version 1.0 release"
+
+Lightweight tag:
+git tag v1.0
+
+View tags:
+git tag
+
+
+D. Push tags
+
+git push origin v1.0
+
+git push --tags
+
+
+============================================================
+PRACTICAL 8 — COMMIT MESSAGES AND BRANCHING
+============================================================
+
+A. Clear commit messages
+
+git commit -m "Added: Greetings Text Added To Repository"
+
+Multi-line commit message:
+git commit -m "first message" -m "second message"
+
+
+B. Stage selected changes interactively
+
+git add -p
+
+
+C. Create and push a feature branch
+
+git checkout -b GGS/test
+
+git commit -m "new"
+
+git push origin GGS/test
+
+
+D. Merge feature branch into master
+
+git checkout master
+
+git merge GGS/test
+
+git push origin master
+
+
+Note: The PDF mentions using git rebase for clean history but does not provide a specific rebase command.
+
+
+============================================================
+PRACTICAL 9 — PUSHING CHANGES
+============================================================
+
+git push
+
+git push --force
+
+git push origin <branch_name>
+
+git push origin <tag_name>
+
+
+============================================================
+PRACTICAL 10 — GITAHEAD (CANCELLED)
+============================================================
+
+The PDF marks this practical as cancelled. No code is provided.
+
+
+============================================================
+PRACTICAL 11 — GITHUB BRANCHES (WEB INTERFACE)
+============================================================
+
+No terminal code is provided. Tasks shown:
+1. Create a repository.
+2. Create a new branch.
+3. Create a file in the new branch.
+4. Compare branches.
+5. Create a pull request.
+
+
+============================================================
+PRACTICAL 12 — GITHUB ISSUES
+============================================================
+
+No programming code is provided. Tasks shown:
+1. Open the repository's Issues tab and choose New issue.
+2. Submit a new issue.
+3. Add a label such as Bug or Documentation.
+4. Assign the issue to a team member.
+5. Close the issue when resolved.
+
+
+============================================================
+PRACTICAL 13 — GITHUB ACTIONS WITH PYTHON
+============================================================
+
+A. calculator.py
+
+def calculate_total(marks):
+    return sum(marks)
+
+def calculate_average(marks):
+    return calculate_total(marks) / len(marks)
+
+def get_result(marks):
+    average = calculate_average(marks)
+
+    if average >= 40:
+        return "PASS"
+    else:
+        return "FAIL"
+
+
+B. test_calculator.py
+
+from calculator import calculate_total
+from calculator import calculate_average
+from calculator import get_result
+
+def test_total():
+    marks = [80, 70, 90]
+    assert calculate_total(marks) == 240
+
+def test_average():
+    marks = [80, 70, 90]
+    assert calculate_average(marks) == 80
+
+def test_pass_result():
+    marks = [80, 70, 90]
+    assert get_result(marks) == "PASS"
+
+def test_fail_result():
+    marks = [30, 35, 25]
+    assert get_result(marks) == "FAIL"
+
+
+C. GitHub Actions workflow file
+Path: .github/workflows/python-app.yml
+
+name: Python Tests
+
+on:
+  push:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Install pytest
+        run: pip install pytest
+
+      - name: Run tests
+        run: pytest
+
+
+============================================================
+QUICK REVISION — IMPORTANT COMMANDS
+============================================================
+
+git init                  — Initialise a repository
+git status                — Check file status
+git add .                 — Stage all eligible changes
+git commit -m "message"   — Save a commit
+git log                   — View commit history
+git reset                 — Unstage changes
+git revert <commit_id>    — Undo a commit by creating a new commit
+git remote -v             — View remote repositories
+git fetch origin          — Fetch remote changes
+git pull origin master    — Fetch and integrate remote changes
+git push                  — Upload commits
+git branch -M master      — Rename current branch
+git checkout -b test      — Create and switch to a branch
+git merge test             — Merge a branch
+git tag                   — List tags
+git rm file.txt           — Remove a tracked file
+git mv old.txt new.txt    — Rename or move a file
+
+END OF FILE
